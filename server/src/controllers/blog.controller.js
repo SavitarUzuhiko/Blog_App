@@ -75,7 +75,7 @@ class BlogController {
   }
 
   async deletePost(req, res) {
-    const { blogId } = req.params; // blogId
+    const { blogId } = req.params;
     const item = await blogModel.findById(blogId);
 
     if (!item) {
@@ -91,6 +91,13 @@ class BlogController {
 
     const deletedPost = await blogModel.findByIdAndDelete(blogId);
     res.status(200).json({ success: true, post: deletedPost });
+  }
+
+  async getOne (req,res) {
+    const { blogId } = req.params;
+    const post = await blogModel.findById(blogId);
+    if(!post) throw new HttpException(404, 'Post not found');
+    res.status(200).json({ success: true, post });
   }
 }
 
